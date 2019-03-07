@@ -4,7 +4,7 @@ from app.forms import LoginForm
 
 @app.route('/')
 @app.route('/index')
-def index() :
+def index():
     user = {'username': 'Miguel'}
     posts = [
         {
@@ -16,7 +16,7 @@ def index() :
             'body': 'The Avengers movie was so cool!'
         }
     ]
-    return render_template('index.html', title='Home', user=user, posts=posts)	
+    return render_template('index.html', title='Home', user=user, posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -24,9 +24,9 @@ def login():
     if form.validate_on_submit():
         flash('Login requested for user {}, remember_me={}'.format(
             form.username.data, form.remember_me.data))
-        return redirect( url_for('index') )
+        return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
 if __name__ == '__main__':
-      app.debug=True
-      app.run()
+    app.debug = True
+    app.run()
