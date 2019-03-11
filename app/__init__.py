@@ -6,6 +6,7 @@ from flask_login import LoginManager
 from config import Config
 import logging
 import os
+from flask_mail import Mail
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
 app = Flask(__name__)
@@ -14,7 +15,25 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
+mail = Mail(app)
+
 '''
+  Emulated email server:  python -m smtpd -n -c DebuggingServer localhost:8025
+    to configure:   export MAIL_SERVER=localhost
+                    export MAIL_PORT=8025
+
+    (venv) $ export MAIL_SERVER=smtp.googlemail.com
+
+to send email through gmail
+(venv) $ export MAIL_PORT=587
+(venv) $ export MAIL_USE_TLS=1
+(venv) $ export MAIL_USERNAME=<your-gmail-username>
+(venv) $ export MAIL_PASSWORD=<your-gmail-password>
+
+
+'''
+'''
+
 if not app.debug:
     if app.config['MAIL_SERVER']:
         auth = None
