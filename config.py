@@ -19,4 +19,4 @@ class Config(object):
 
         ADMINS = ['bill.frye2@gmail.com']
 
-        POSTS_PER_PAGE = 3      
+        POSTS_PER_PAGE = 25     
