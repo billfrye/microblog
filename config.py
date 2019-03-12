@@ -13,10 +13,18 @@ class Config(object):
           "MAIL_PORT": 465,
           "MAIL_USE_TLS": False,
           "MAIL_USE_SSL": True,
-          "MAIL_USERNAME": os.environ['EMAIL_USER'],
-        #   "MAIL_PASSWORD": os.environ['EMAIL_PASSWORD']
         }
 
+        mail_settings["MAIL_USERNAME"]: "MAIL_PASSWORD"
+        if 'EMAIL_USER' in os.environ:
+                mail_settings["MAIL_USERNAME"] = os.environ['EMAIL_USER']
+        else:
+                mail_settings["MAIL_USERNAME"] = 'sending_email_user@yourserver.com'
+        if 'EMAIL_PASSWORD' in os.environ:
+                mail_settings["MAIL_PASSWORD"] = os.environ['EMAIL_USER']
+        else:
+                mail_settings["MAIL_PASSWORD"] = 'sending_email_user@yourserver.com'
+ 
         ADMINS = ['bill.frye2@gmail.com']
 
         POSTS_PER_PAGE = 25     

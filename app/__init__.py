@@ -1,13 +1,14 @@
+import logging
+from logging.handlers import SMTPHandler, RotatingFileHandler
+import os
 from flask import Flask
-
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from config import Config
-import logging
-import os
 from flask_mail import Mail
-from logging.handlers import SMTPHandler, RotatingFileHandler
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -16,23 +17,8 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 mail = Mail(app)
-
-'''
-  Emulated email server:  python -m smtpd -n -c DebuggingServer localhost:8025
-    to configure:   export MAIL_SERVER=localhost
-                    export MAIL_PORT=8025
-
-    (venv) $ export MAIL_SERVER=smtp.googlemail.com
-
-to send email through gmail
-(venv) $ export MAIL_PORT=587
-(venv) $ export MAIL_USE_TLS=1
-(venv) $ export MAIL_USERNAME=<your-gmail-username>
-(venv) $ export MAIL_PASSWORD=<your-gmail-password>
-
-
-'''
-'''
+bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 if not app.debug:
     if app.config['MAIL_SERVER']:
@@ -49,12 +35,11 @@ if not app.debug:
             credentials=auth, secure=secure)
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
-'''
-if not app.debug:
+
     if not os.path.exists('logs'):
         os.mkdir('logs')
     file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240,
-                                        backupCount=10)
+                                       backupCount=10)
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
     file_handler.setLevel(logging.INFO)
@@ -62,5 +47,5 @@ if not app.debug:
 
     app.logger.setLevel(logging.INFO)
     app.logger.info('Microblog startup')
-    
+
 from app import routes, models, errors
