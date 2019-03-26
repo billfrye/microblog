@@ -21,9 +21,9 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 
 if not app.debug:
-    if 'MAIL_SERVER' in app.config:
+    if 'MAIL_SERVER' in app.config and app.config('REPORT_ERRORS_BY_MAIL'):
         auth = None
-    elif app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
+    elif 'MAIL_USERNAME' in app.config and 'MAIL_PASSWORD' in app.config:
         auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
     else: 
         secure = None
