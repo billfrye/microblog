@@ -20,14 +20,16 @@ mail = Mail(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
-if not app.debug:
+mail_notification_is_configured = False
+
+if not app.debug and mail_notification_is_configured:
     if 'MAIL_SERVER' in app.config and app.config('REPORT_ERRORS_BY_MAIL'):
         auth = None
     elif 'MAIL_USERNAME' in app.config and 'MAIL_PASSWORD' in app.config:
         auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
     else: 
         secure = None
-        if app.config['MAIL_USE_TLS']:
+        if 'MAIL_USE_TLS' in app.config and app.config['MAIL_USE_TLS']:
             secure = ()
         mail_handler = SMTPHandler(
             mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
