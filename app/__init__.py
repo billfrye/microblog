@@ -23,11 +23,11 @@ moment = Moment(app)
 mail_notification_is_configured = False
 
 if not app.debug and mail_notification_is_configured:
-    if 'MAIL_SERVER' in app.config and app.config('REPORT_ERRORS_BY_MAIL'):
+    if 'MAIL_SERVER' in app.config and 'REPORT_ERRORS_BY_MAIL' in app.config:
         auth = None
     elif 'MAIL_USERNAME' in app.config and 'MAIL_PASSWORD' in app.config:
         auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
-    else: 
+    else:
         secure = None
         if 'MAIL_USE_TLS' in app.config and app.config['MAIL_USE_TLS']:
             secure = ()
