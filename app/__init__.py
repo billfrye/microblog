@@ -19,7 +19,6 @@ login.login_view = 'login'
 mail = Mail(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
-logout_user()
 mail_notification_is_configured = False
 
 if not app.debug and mail_notification_is_configured:
